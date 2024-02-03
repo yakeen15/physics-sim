@@ -7,13 +7,13 @@ pygame.init()
 
 window_size = (width, height)
 window = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Rectangle Generator")
+pygame.display.set_caption("Viscosity")
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 TRANSPARENT_BLUE = (0, 0, 255, 128)
 orig_x = 300
-orig_y = 250
+orig_y = 200
 r1 = Rect(25,25,BLACK,orig_x,orig_y)
 flag=0
 while True:
@@ -30,8 +30,8 @@ while True:
     forces = []
     r1.wallCollision()
     if r1.y+r1.ht>height//2:
-        forces.append(r1.buoyancy(vol=1,liq_den=2))
-        #forces.append(r1.viscous(visc=0.01))
+        forces.append(r1.buoyancy(vol=1,liq_den=0.05))
+        forces.append(r1.viscous(visc=1))
         if flag!=1:
             print("In water")
         flag=1
