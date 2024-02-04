@@ -1,6 +1,4 @@
-width = 800
-height = 600
-dt = 0.01
+
 class Rect:
     def __init__(self,w,h,clr,x,y):
         self.wd = w
@@ -12,35 +10,39 @@ class Rect:
         self.vy = 0
         self.ax = 0
         self.ay = 0
-    def update(self):
+        self.forcex = []
+        self.forcey = []
+    def update(self,dt):
+        self.netforcex()
+        self.netforcey()
         self.x = self.x+self.vx*dt
         self.y = self.y+self.vy*dt
         self.vx = self.vx+self.ax*dt
         self.vy = self.vy+self.ay*dt
-    def wallCollision(self):
+    def wallCollision(self,width,height):
         if self.x+self.wd>width or self.x<0:
-            print(self.vx)
             self.vx=-self.vx
         if self.y+self.ht>height or self.y<0:
-            print(self.vy)
             self.vy=-self.vy
-    def netforcex(self,f=[0]):
+    def netforcex(self):
         netf = 0
-        for force in f:
+        for force in self.forcex:
             netf = netf+force
+        self.forcex = []
         self.ax = netf
-    def netforcey(self,f=[0]):
+    def netforcey(self):
         netf = 0
-        for force in f:
+        for force in self.forcey:
             netf = netf+force
+        self.forcey = []
         self.ay = netf
     def harmonicForcex(self,coef=0.002,orig=150):
-        return -coef*(self.x-orig)
+        self.forcex.append(-coef*(self.x-orig))
     def harmonicForcey(self,coef=0.002,orig=150):
-        return -coef*(self.y-orig)
+        self.forcey.append(-coef*(self.y-orig))
     def gravForce(self,g=0.5):
-        return g
+        self.forcey.append(g)
     def buoyancy(self,vol=1,liq_den=1,g=0.5):
-        return -vol*liq_den*g
+        self.forcey.append(-vol*liq_den*g)
     def viscous(self,visc=1):
-        return -visc*self.vy
+        self.forcey.append(-visc*self.vy) 
