@@ -1,5 +1,5 @@
 import pygame
-from Rect import Rect
+from Rect import Rect, Circ
 from lib.lib import draw_rect_alpha
 import sys
 width = 800
@@ -17,7 +17,8 @@ BLACK = (0, 0, 0)
 TRANSPARENT_BLUE = (0, 0, 255, 128)
 orig_x = 300
 orig_y = 250
-r1 = Rect(SQR_SIZE,SQR_SIZE,BLACK,orig_x,orig_y)
+#r1 = Rect(SQR_SIZE,SQR_SIZE,BLACK,orig_x,orig_y)
+r1 = Circ(SQR_SIZE,BLACK,orig_x,orig_y)
 flag=0
 while True:
     for event in pygame.event.get():
@@ -43,5 +44,5 @@ while True:
     r1.gravForce()
     r1.update(dt)
     draw_rect_alpha(window, (0,0,255,127),(0, height//2, width, height//2))
-    pygame.draw.rect(window, r1.clr, (r1.x, r1.y, r1.wd, r1.ht))
+    pygame.draw.circle(window, r1.clr, (r1.x, r1.y), r1.r)
     pygame.display.flip()
